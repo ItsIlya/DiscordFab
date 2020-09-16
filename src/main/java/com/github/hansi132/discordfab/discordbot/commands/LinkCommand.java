@@ -5,7 +5,6 @@ import com.github.hansi132.discordfab.discordbot.api.command.CommandCategory;
 import com.github.hansi132.discordfab.discordbot.api.command.DiscordFabCommand;
 import com.github.hansi132.discordfab.discordbot.integration.UserSynchronizer;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
-import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import org.jetbrains.annotations.NotNull;
@@ -16,9 +15,10 @@ public class LinkCommand extends DiscordFabCommand {
         super(category, label);
         this.withDescription("Links your account.");
 
-        final RequiredArgumentBuilder<BotCommandSource, Integer> linkKey = argument("linkKey", IntegerArgumentType.integer(1000, 9999))
-                .executes(this::execute);
-        this.argBuilder.then(linkKey);
+        this.argBuilder.then(
+                argument("linkKey", IntegerArgumentType.integer(1000, 9999))
+                        .executes(this::execute)
+        );
     }
 
     private int execute(final CommandContext<BotCommandSource> ctx) {
@@ -27,15 +27,12 @@ public class LinkCommand extends DiscordFabCommand {
         MessageChannel channel = src.getChannel();
 
         if (!UserSynchronizer.isLinkCode(String.valueOf(linkKey))) {
-            channel.sendMessage(DISCORD_FAB.getConfig().messages.invalid_link_key).queue();
-            return 0;
-        } else {
-            UserSynchronizer.sync(null, channel, src.getUser(), linkKey);
-            return 1;
+            src.sendError(DISCORD_FAB.getConfig().messages.invalid_link_key).queue();
+            return FAILED;
         }
 
-
+        UserSynchronizer.sync(null, channel, src.getUser(), linkKey);
+        return SUCCESS;
     }
-
 
 }

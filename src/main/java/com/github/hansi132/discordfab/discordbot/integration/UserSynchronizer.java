@@ -10,8 +10,7 @@ import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.query.QueryOptions;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import org.kilocraft.essentials.api.KiloServer;
-import org.kilocraft.essentials.api.user.OnlineUser;
+import org.kilocraft.essentials.api.KiloEssentials;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -123,20 +122,19 @@ public class UserSynchronizer {
                 updateStatement.setInt(2, linkKey);
                 updateStatement.execute();
 
-                OnlineUser onlineUser = KiloServer.getServer().getOnlineUser(UUID.fromString(mcUUID));
-
-                if (privateChannel != null) {
-                    privateChannel.sendMessage(
-                            DISCORD_FAB.getConfig().messages.successfully_linked
-                                    .replace("%player%", onlineUser == null ? mcUUID : onlineUser.getName())
-                    ).queue();
-                } else if (publicChannel != null) {
-                    publicChannel.sendMessage(
-                            DISCORD_FAB.getConfig().messages.successfully_linked
-                                    .replace("%player%", onlineUser == null ? mcUUID : onlineUser.getName())
-                    ).queue();
-                }
-
+                KiloEssentials.getInstance().getUserThenAcceptAsync(UUID.fromString(mcUUID), (o) -> o.ifPresent((u) -> {
+                    if (privateChannel != null) {
+                        privateChannel.sendMessage(
+                                DISCORD_FAB.getConfig().messages.successfully_linked
+                                        .replace("%player%", u.getDisplayName())
+                        ).queue();
+                    } else if (publicChannel != null) {
+                        publicChannel.sendMessage(
+                                DISCORD_FAB.getConfig().messages.successfully_linked
+                                        .replace("%player%", u.getDisplayName())
+                        ).queue();
+                    }
+                }));
 
                 if (DISCORD_FAB.getConfig().userSync.syncDisplayName) {
                     syncDisplayName(linkKey);

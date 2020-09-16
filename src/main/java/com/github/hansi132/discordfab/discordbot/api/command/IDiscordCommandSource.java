@@ -52,6 +52,8 @@ public interface IDiscordCommandSource {
 
     MessageAction sendError(@NotNull final EmbedBuilder builder);
 
+    MessageAction sendError(@NotNull final CharSequence charSequence);
+
     MessageAction sendWarning(@NotNull final EmbedBuilder builder);
 
     GuildMessageReceivedEvent getEvent();

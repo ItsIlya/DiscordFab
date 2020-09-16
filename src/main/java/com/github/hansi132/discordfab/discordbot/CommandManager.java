@@ -35,7 +35,7 @@ public class CommandManager {
 //        CommandSyntaxException.BUILT_IN_EXCEPTIONS = new DiscordFormattedBuiltInExceptions();
 
         this.register(new DebugCommand());
-        this.register(new PresenceCommand(CommandCategory.ADMIN, "presence", Permission.ADMINISTRATOR));
+        this.register(new PresenceCommand(CommandCategory.ADMIN, "presence", Permission.MANAGE_ROLES));
         this.register(new PingCommand(CommandCategory.GENERAL, "ping"));
         this.register(new IpCommand(CommandCategory.HELP, "ip", "connect"));
         this.register(new HelpCommand(CommandCategory.HELP, "help"));
@@ -72,6 +72,7 @@ public class CommandManager {
             return;
         }
 
+        //TODO: Cache Results
         final ParseResults<BotCommandSource> parseResults = this.dispatcher.parse(reader, src);
 
         try {
@@ -80,13 +81,13 @@ public class CommandManager {
             } catch (BotCommandException e) {
                 src.sendFeedback(e.getJDAMessage()).queue();
             } catch (CommandSyntaxException e) {
-                EmbedBuilder builder = new EmbedBuilder().setDescription(e.getMessage());
                 if (command != null) {
+                    EmbedBuilder builder = new EmbedBuilder().setDescription(e.getMessage());
                     builder.setFooter(CONFIG.messages.command_parse_help
                             .replace("$command$", prefix + "help " + label)
                     );
+                    src.sendError(builder).queue();
                 }
-                src.sendError(builder).queue();
             }
         } catch (Exception e) {
             final EmbedBuilder builder = new EmbedBuilder()

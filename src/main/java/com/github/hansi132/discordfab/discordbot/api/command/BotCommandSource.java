@@ -126,6 +126,11 @@ public class BotCommandSource implements IDiscordCommandSource {
     }
 
     @Override
+    public MessageAction sendError(@NotNull CharSequence charSequence) {
+        return this.sendError(new EmbedBuilder().setDescription(charSequence));
+    }
+
+    @Override
     public MessageAction sendWarning(@NotNull EmbedBuilder builder) {
         return this.sendFeedback(builder.setColor(WARNING_COLOR).build());
     }
