@@ -61,14 +61,16 @@ public class CommandManager {
     public void execute(@NotNull final BotCommandSource src, @NotNull final String input) {
         final String prefix = CONFIG.prefix;
         final StringReader reader = new StringReader(input);
-        if (reader.canRead() && reader.getString().startsWith(prefix)) {
+
+        reader.skipWhitespace();
+        if (reader.canRead() && reader.getString().toLowerCase(Locale.ROOT).startsWith(prefix.toLowerCase(Locale.ROOT))) {
             reader.setCursor(prefix.length());
         }
 
-        final String label = reader.getRemaining().split(" ")[0];
+        final String label = reader.getRemaining().split(" ")[0].toLowerCase(Locale.ROOT);
         final DiscordFabCommand command = DiscordFabCommand.getByLabel(label);
         if (command != null && !command.getPredicate().test(src)) {
-            src.sendError(new EmbedBuilder().setDescription(CONFIG.messages.command_parse_no_permission)).queue();
+            src.sendError(CONFIG.messages.command_parse_no_permission).queue();
             return;
         }
 
