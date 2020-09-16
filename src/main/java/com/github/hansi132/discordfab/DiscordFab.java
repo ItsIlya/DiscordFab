@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.security.auth.login.LoginException;
 
 public class DiscordFab {
-    public static final Logger LOGGER = LogManager.getLogger("DiscordFab");
+    public static final Logger logger = LogManager.getLogger("DiscordFab");
     private static DiscordFab INSTANCE;
     private static ShardManager SHARD_MANAGER;
     private boolean isDevelopment = false;
@@ -46,13 +46,13 @@ public class DiscordFab {
             ).getShardManager();
 
             if (isDevelopment) {
-                LOGGER.info("**** DiscordFab IS RUNNING IN DEBUG/DEVELOPMENT MODE!");
+                logger.info("**** DiscordFab IS RUNNING IN DEBUG/DEVELOPMENT MODE!");
                 SHARD_MANAGER.setActivity(Activity.playing("Debugging"));
             }
 
-            LOGGER.info("Successfully logged in");
+            logger.info("Successfully logged in");
         } catch (LoginException e) {
-            LOGGER.fatal("Can not log into the bot!", e);
+            logger.fatal("Can not log into the bot!", e);
         }
     }
 

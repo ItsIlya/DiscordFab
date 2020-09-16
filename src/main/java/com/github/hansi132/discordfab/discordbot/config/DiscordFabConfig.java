@@ -41,9 +41,9 @@ public class DiscordFabConfig {
 
             loader.save(node);
         } catch (IOException e) {
-            DiscordFab.LOGGER.error("Could not generate the Config File!", e);
+            DiscordFab.logger.error("Could not generate the Config File!", e);
         } catch (ObjectMappingException e) {
-            DiscordFab.LOGGER.error("Exception while generating the Config File!", e);
+            DiscordFab.logger.error("Exception while generating the Config File!", e);
         }
     }
 

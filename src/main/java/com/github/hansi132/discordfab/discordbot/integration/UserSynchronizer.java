@@ -22,7 +22,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UserSynchronizer {
-    private static final Logger LOGGER = DiscordFab.LOGGER;
+    private static final Logger LOGGER = DiscordFab.logger;
     private static final DiscordFab DISCORD_FAB = DiscordFab.getInstance();
     private static final ShardManager BOT = DiscordFab.getBot();
     private static final Pattern LINK_KEY_PATTERN = Pattern.compile("(\\d{4})");
@@ -57,7 +57,7 @@ public class UserSynchronizer {
 
             conn.close();
         } catch (ClassNotFoundException | SQLException e) {
-            DiscordFab.LOGGER.error("Could not query the database!", e);
+            DiscordFab.logger.error("Could not query the database!", e);
         }
 
         return false;
@@ -79,7 +79,7 @@ public class UserSynchronizer {
 
             conn.close();
         } catch (SQLException | ClassNotFoundException e) {
-            DiscordFab.LOGGER.error("Could not query the database!", e);
+            DiscordFab.logger.error("Could not query the database!", e);
         }
 
         return false;
@@ -100,7 +100,7 @@ public class UserSynchronizer {
 
             conn.close();
         } catch (ClassNotFoundException | SQLException | NullPointerException e) {
-            DiscordFab.LOGGER.error("Could not query the database!", e);
+            DiscordFab.logger.error("Could not query the database!", e);
         }
 
         return 0L;

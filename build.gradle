@@ -1,17 +1,35 @@
 plugins {
-    id('fabric-loom').version('0.2.7-SNAPSHOT')
-    id 'com.github.johnrengelman.shadow' version '5.1.0'
+    id 'fabric-loom' version "0.5-SNAPSHOT"
     id 'java'
+    id 'org.jetbrains.kotlin.jvm' version "1.3.72"
+    id 'com.github.johnrengelman.shadow' version "5.2.0"
 }
 
 apply plugin: 'java'
+apply plugin: 'kotlin'
 apply plugin: 'com.github.johnrengelman.shadow'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
+compileKotlin.kotlinOptions.jvmTarget = "1.8"
+compileTestKotlin.kotlinOptions.jvmTarget = "1.8"
 
-version "1.0.1"
+version project.version
 group "com.github.hansi132.DiscordFab"
+archivesBaseName = "discord_fab"
+
+logger.lifecycle("""
+    ==--==--====--==--====--==--====--==--====--==--==
+    Building DiscordFab $project.version
+    
+    Fabric: 
+        Minecraft: $project.minecraft_version
+        Loader: $project.loader_version 
+        Yarn: $project.yarn_mappings
+    Dependencies:
+        FabricAPI: $project.fabric_api_version
+    ==--==--====--==--====--==--====--==--====--==--==
+""")
 
 minecraft {}
 
@@ -36,32 +54,39 @@ shadowJar {
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:1.16.1"
-    mappings "net.fabricmc:yarn:1.16.1+build.17:v2"
-    modImplementation "net.fabricmc:fabric-loader:0.8.8+build.202"
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
     //Fabric api
-    modImplementation "net.fabricmc.fabric-api:fabric-api:0.14.0+build.371-1.16"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+    modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_language_kotlin}"
 
     modImplementation 'com.github.OnBlock:KiloEssentials:v1.10'
     //include 'com.github.OnBlock:KiloEssentials:1.10'
 
     compile "net.luckperms:api:5.0"
 
-    compile group: 'net.dv8tion', name: 'JDA', version: '4.1.1_150'
-    shadow group: 'net.dv8tion', name: 'JDA', version: '4.1.1_150'
-    compile group: 'com.jagrosh', name: 'jda-utilities', version: '3.0.3'
-    shadow group: 'com.jagrosh', name: 'jda-utilities', version: '3.0.3'
-    implementation group: 'me.duncte123', name: 'botCommons', version: '1.0.83'
-    shadow group: 'me.duncte123', name: 'botCommons', version: '1.0.83'
-    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
-    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
-    include group: 'mysql', name: 'mysql-connector-java', version: '5.1.13'
-    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.13'
-    compile group: 'club.minnced', name: 'discord-webhooks', version: '0.3.0'
-    shadow group: 'club.minnced', name: 'discord-webhooks', version: '0.3.0'
-    compile 'org.spongepowered:configurate-hocon:3.6.1'
-    shadow 'org.spongepowered:configurate-hocon:3.6.1'
+    compile group: 'net.dv8tion', name: 'JDA', version: "${project.jda_version}"
+    shadow group: 'net.dv8tion', name: 'JDA', version: "${project.jda_version}"
+
+    compile group: 'com.jagrosh', name: 'jda-utilities', version: "${project.jda_utilities_version}"
+    shadow group: 'com.jagrosh', name: 'jda-utilities', version: "${project.jda_utilities_version}"
+
+    implementation group: 'me.duncte123', name: 'botCommons', version: "${project.bot_commons}"
+    shadow group: 'me.duncte123', name: 'botCommons', version: "${project.bot_commons}"
+
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: "${project.logback_version}"
+    compile group: 'org.slf4j', name: 'slf4j-api', version: "${project.logback_version}"
+
+    include group: 'mysql', name: 'mysql-connector-java', version: "${project.mysql_version}"
+    compile group: 'mysql', name: 'mysql-connector-java', version: "${project.mysql_version}"
+
+    compile group: 'club.minnced', name: 'discord-webhooks', version: "${project.discord_webhooks}"
+    shadow group: 'club.minnced', name: 'discord-webhooks', version: "${project.discord_webhooks}"
+
+    compile "org.spongepowered:configurate-hocon:${project.configurate_version}"
+    shadow "org.spongepowered:configurate-hocon:${project.configurate_version}"
 }
 
 task remapJar(type: net.fabricmc.loom.task.RemapJarTask, overwrite: true) {
