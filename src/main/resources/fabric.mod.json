@@ -2,31 +2,31 @@
   "schemaVersion": 1,
   "id": "discordfab",
   "version": "${version}",
-
   "name": "DiscordFab",
-  "description": "",
+  "description": "Discord and Fabric server link",
   "authors": [
     "hansi132",
     "ItsIlya"
   ],
   "contact": {
-    "homepage": "",
-    "sources": ""
+    "repo": "https://github.com/KiloCraft/DiscordFab"
   },
-
-  "license": "CC0-1.0",
-
+  "license": "MIT",
   "environment": "server",
   "entrypoints": {
     "server": [
-      "com.github.hansi132.discordfab.DiscordFabMod"
+      {
+        "adapter": "kotlin",
+        "value": "io.github.hansi132.discordfab.DiscordFabMod"
+      }
     ]
   },
-
   "depends": {
-    "fabricloader": ">=0.7.2"
-  },
-  "suggests": {
-    "kilo_essentials": "*"
+    "fabricloader": ">=0.9.2+build.206",
+    "fabric": ">=${fabric_api}",
+    "fabric-language-kotlin": "*",
+    "minecraft": ">=${minecraft}",
+    "luckperms": ">=${luckperms}"
   }
 }
+

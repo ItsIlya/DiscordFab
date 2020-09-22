@@ -62,10 +62,10 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
     modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_language_kotlin}"
 
+    //Deprecated
     modImplementation 'com.github.OnBlock:KiloEssentials:v1.10'
-    //include 'com.github.OnBlock:KiloEssentials:1.10'
 
-    compile "net.luckperms:api:5.0"
+    compile "net.luckperms:api:${project.luckperms_version}"
 
     compile group: 'net.dv8tion', name: 'JDA', version: "${project.jda_version}"
     shadow group: 'net.dv8tion', name: 'JDA', version: "${project.jda_version}"
@@ -98,7 +98,10 @@ processResources {
 
     from(sourceSets.main.resources.srcDirs) {
         include "fabric.mod.json"
-        expand "version": project.version
+        expand "version": project.version,
+                "fabric_api": project.fabric_api_version,
+                "minecraft": project.minecraft_version,
+                "luckperms": project.luckperms_version
     }
 
     from(sourceSets.main.resources.srcDirs) {
