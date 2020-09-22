@@ -6,7 +6,6 @@ import io.github.hansi132.discordfab.discordbot.api.command.CommandCategory;
 import io.github.hansi132.discordfab.discordbot.api.command.DiscordFabCommand;
 import io.github.hansi132.discordfab.discordbot.api.command.exception.BotCommandException;
 import io.github.hansi132.discordfab.discordbot.api.text.Messages;
-import com.github.hansi132.discordfab.discordbot.commands.*;
 import io.github.hansi132.discordfab.discordbot.config.MainConfig;
 import com.google.common.collect.Maps;
 import com.mojang.brigadier.CommandDispatcher;

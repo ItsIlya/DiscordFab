@@ -90,7 +90,7 @@ public class ChatSynchronizer {
                     .append(new LiteralText(attachment.getWidth() + "x" + attachment.getHeight()).formatted(Formatting.AQUA))
                     .append(new LiteralText("\nSize: ").formatted(Formatting.GRAY))
                     .append(new LiteralText(attachment.getSize() / 1024 + "kb").formatted(Formatting.AQUA));
-            text.styled(style -> style.setHoverEvent(Texter.Events.onHover(hover)).withClickEvent(Texter.Events.onClickOpen(attachment.getUrl()))).formatted(Formatting.GREEN);
+            text.styled(style -> style.withHoverEvent(Texter.Events.onHover(hover)).withClickEvent(Texter.Events.onClickOpen(attachment.getUrl()))).formatted(Formatting.GREEN);
             sendtoGame(member, text);
         }
         if (!string.equals("")) {

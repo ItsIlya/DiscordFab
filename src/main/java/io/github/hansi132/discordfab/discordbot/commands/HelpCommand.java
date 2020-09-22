@@ -1,9 +1,6 @@
 package io.github.hansi132.discordfab.discordbot.commands;
 
 import io.github.hansi132.discordfab.JDiscordFab;
-import io.github.hansi132.discordfab.discordbot.api.command.BotCommandSource;
-import io.github.hansi132.discordfab.discordbot.api.command.CommandCategory;
-import io.github.hansi132.discordfab.discordbot.api.command.DiscordFabCommand;
 import com.google.common.collect.Iterables;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.ParseResults;
@@ -13,6 +10,9 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.tree.CommandNode;
+import io.github.hansi132.discordfab.discordbot.api.command.BotCommandSource;
+import io.github.hansi132.discordfab.discordbot.api.command.CommandCategory;
+import io.github.hansi132.discordfab.discordbot.api.command.DiscordFabCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.jetbrains.annotations.NotNull;
 
@@ -36,8 +36,8 @@ public class HelpCommand extends DiscordFabCommand {
 
     private int execute(CommandContext<BotCommandSource> ctx) {
         final BotCommandSource src = ctx.getSource();
-        final JDiscordFab JDiscordFab = JDiscordFab.getInstance();
-        final Map<String, DiscordFabCommand> map = JDiscordFab.getCommandManager().getCommands();
+        final JDiscordFab discordFab = JDiscordFab.getInstance();
+        final Map<String, DiscordFabCommand> map = discordFab.getCommandManager().getCommands();
         map.remove(this.getLabel());
 
         EmbedBuilder builder = new EmbedBuilder().setTitle("Commands")

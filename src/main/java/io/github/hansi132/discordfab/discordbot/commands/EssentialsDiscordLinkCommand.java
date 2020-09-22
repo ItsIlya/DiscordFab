@@ -68,7 +68,7 @@ public class EssentialsDiscordLinkCommand extends EssentialCommand {
         } catch (SQLException e) {
             user.sendError(
                     Texter.newText("Unexpected database error.").styled((style) ->
-                            style.setHoverEvent(Texter.Events.onHover(Messages.getInnermostMessage(e))))
+                            style.withHoverEvent(Texter.Events.onHover(Messages.getInnermostMessage(e))))
             );
         } catch (ClassNotFoundException e) {
             user.sendError(ExceptionMessageNode.UNKNOWN_COMMAND_EXCEPTION);
@@ -82,7 +82,7 @@ public class EssentialsDiscordLinkCommand extends EssentialCommand {
         return Texter.newText().append(
                 text.append(
                         Texter.newText(key).formatted(Formatting.AQUA).styled((style) ->
-                                style.setHoverEvent(Texter.Events.onHover("Click to Copy"))
+                                style.withHoverEvent(Texter.Events.onHover("Click to Copy"))
                                         .withClickEvent(
                                                 new ClickEvent(
                                                         ClickEvent.Action.COPY_TO_CLIPBOARD,
